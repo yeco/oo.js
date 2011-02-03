@@ -42,7 +42,7 @@ For details on how this works, read on ...
 
 APIs are defined using standard JS objects.  For example:
 
-    var MyClass = oocreateClass({
+    var MyClass = oo.createClass({
       someProperty: 123,
       someMethod: function() { /* ... */ },
       someOtherMethod: function() { /* ... */}
@@ -52,7 +52,7 @@ This is a common pattern in libraries like Prototype (Class.create) and Dojo (do
 
 But the "magic sauce" in oo.js comes from it's support for modifier directives in the property names.  For example, a "oo.js"-ified version of MyClass might look like this:
 
-    var MyClass = oocreateClass({
+    var MyClass = oo.createClass({
       initialize$: function() { /* ... */ },
 
       $SOME_CONSTANT: 123,
@@ -84,18 +84,18 @@ For a complete description of keys and ** APID Key Syntax and Modifiers ** below
 
 ## oo.js API
 
-### oocreateClass(_APIDefinition_)
+### oo.createClass(_APIDefinition_)
 
 Create a class. _APIDefinition_ is a oo.js API definition object as described above.  It supports the following modifiers:
   * **initialize$** - Static initializer function.  Run once, immediately after class is created
   * **initialize** - instance initializer function.  Run once for each new instance of the class, as part of instance creation.
   * **superclass$** - Specifies the class to inherit from
 
-Classes a "oocreateClass(_apid\_definition_)"
+Classes a "oo.createClass(_apid\_definition_)"
 
 #### Example: Creating a class
 
-    var MyClass = oocreateClass({
+    var MyClass = oo.createClass({
       // Define a static initializer method. This method is called once,
       // immediately after the class is created.
       initialize$: function() {
@@ -141,7 +141,7 @@ Classes a "oocreateClass(_apid\_definition_)"
 
 #### Example: Creating a Subclass
 
-    var MySubclass = oocreateClass({
+    var MySubclass = oo.createClass({
 
       // Inherit members from MyClass
       superclass$: MyClass,
@@ -170,13 +170,13 @@ Classes a "oocreateClass(_apid\_definition_)"
       }
     });
 
-### ooextendClass(_APIDefinition_)
+### oo.extendClass(_APIDefinition_)
 
-ooextendClass() allows you to enhance existing classes.  This works for _any_ class, not just those created with oocreateClass.
+oo.extendClass() allows you to enhance existing classes.  This works for _any_ class, not just those created with oo.createClass.
 
 #### Example: Extending native Array class
 
-    ooextendClass({
+    oo.extendClass({
       // Define Array.SOME_CONSTANT
       $SOME_CONSTANT: 'a value',
 
@@ -204,9 +204,9 @@ ooextendClass() allows you to enhance existing classes.  This works for _any_ cl
       }
     });
 
-### ooextendObject(_APIDefinition_)
+### oo.extendObject(_APIDefinition_)
 
-ooextendObject() allows you to extend object instances in much the same way you would extend a class.  This allows you to leverage the powerful "mixin" pattern.
+oo.extendObject() allows you to extend object instances in much the same way you would extend a class.  This allows you to leverage the powerful "mixin" pattern.
 
 #### Example: Extending a DOM object
 
@@ -243,7 +243,7 @@ ooextendObject() allows you to extend object instances in much the same way you 
     }
 
     // Then, to apply Collapsable to an element, we do ...
-    ooextendObject(*someElement*, Collapsable);
+    oo.extendObject(*someElement*, Collapsable);
 
 There are a couple things to note here.  First, extendObject() ignores static$ members in your APID.  Which is nice, because it allows you to include static members in your code.  However - and this is something that may be addressed in a future version of oo.js - it requires that you reference them using the exact property name in the APID; e.g. "$CONTENT\_CLASS" as opposed to "CONTENT\_CLASS".
 
@@ -269,7 +269,7 @@ Functions are bound to each instance (cool, right?), meaning regardless of how t
 
 If used in conjunction with static$, 'this' will refer to the class object.
 
-Note: When using ooextendClass() to enhance a non-oo.js class, non-static bind$s will produce an error.
+Note: When using oo.extendClass() to enhance a non-oo.js class, non-static bind$s will produce an error.
 
 ### **get**$*name* / **set**$*name*
 Applies the *name* function using built-in getter/setter support.
@@ -284,10 +284,10 @@ For convenience (and because it is somewhat of a convention) this can be abbrevi
 ### **superclass**$
 Specifies the superclass to inherit from
 
-Note: Only meaningful in oocreateClass.
+Note: Only meaningful in oo.createClass.
 
 ### **initialize**$
-Identifies a static initializer method.  The supplied function will be invoked immediately before returning from oocreateClass/extendClass/extendObject.
+Identifies a static initializer method.  The supplied function will be invoked immediately before returning from oo.createClass/extendClass/extendObject.
 
 ### **initialize**
 Specifies the instance initializer method.  oo.js classes invoke this method as part of "new" object creation.
